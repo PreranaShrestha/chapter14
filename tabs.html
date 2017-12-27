@@ -1,0 +1,67 @@
+<div id="wrapper">
+  <div data-tabname="one">Tab one</div>
+  <div data-tabname="two">Tab two</div>
+  <div data-tabname="three">Tab three</div>
+</div>
+<script>
+  function asTabs(node) {
+    var childs = node.childNodes;
+
+    childs.forEach(function(element) {
+      if(element.nodeType ==1) {
+        var button = document.createElement("BUTTON");
+        button.textContent = element.getAttribute("data-tabname");
+        node.appendChild(button);
+       element.style.display = "none";
+
+      }
+    });
+
+    var buttons =document.querySelectorAll('button');
+    for(var i = buttons.length-1 ;i >= 0 ;i--) {
+    node.insertBefore(buttons[i],node.firstChild);
+    }
+    var button = document.getElementsByTagName('button')[0];
+    var divOne= document.querySelector("div[data-tabname ='one']");
+    divOne.style.display ="block";
+      button.style.background = "red";
+
+
+    var buttons = document.getElementsByTagName("button");
+    for(i=0;i<buttons.length;i++){
+    buttons[i].addEventListener("mousedown", function(event){
+       childs.forEach(function(element){
+       if(element.nodeType ==1 && element.nodeName.toLowerCase() =="div") {
+          element.style.display ="none";
+            }
+    });
+
+  event.target.style.background = "red";
+
+
+      childs.forEach(function(element){
+        if(element.nodeType == 1){
+          if(element.getAttribute("data-tabname") ==event.target.textContent)
+            {
+            element.style.display ="block";
+            }
+        }
+      });
+    });
+
+    }
+
+   var buttons = document.getElementsByTagName("button");
+    for(i=0;i<buttons.length;i++){
+    buttons[i].addEventListener("mouseup", function(event){
+      for(i=0;i<buttons.length;i++){
+       var button = document.getElementsByTagName('button')[i];
+      button.style.background = "";
+      }
+      event.target.style.background="red";
+    });
+    }
+
+  }
+  asTabs(document.querySelector("#wrapper"));
+</script>
